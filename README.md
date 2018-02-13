@@ -1,5 +1,26 @@
 # Predicting Airbnb First User's Destination
 
+Airbnb is an online peer-to-peer property rental service that allows users to book short-term lodging. This includes rooms, apartments, entire homes, vacation rentals, etc. Airbnb brokers reservations between users and landlords for lodging all over the world. As of January 2018, the company had over 3 million listings in 65,000 cities over 191 countries ( [reference](https://www.airbnb.com/about/about-us) ). 
+
+
+One way to immediately pique a new user's interest is to advertise bookings in a city or country the user would first like to visit. By accurately predicting where a new user will book his or her first trip, Airbnb can curate personalized content to showcase that will result in the user completing their booking. For Airbnb, this helps decrease the average time for first booking for a new user and helps personalize content for their community. It also improves the new user's first booking experience by curating content to their travel preferences. 
+
+Airbnb has done a fair amount of research on this topic, including initiating a [Kaggle Recruitment Challenge](https://www.kaggle.com/c/airbnb-recruiting-new-user-bookings#description) to address this very issue. Many of the contestants shared their views on their approach to solving the first booking problem and their findings during implementation (see [Pons](http://blog.kaggle.com/2016/03/07/airbnb-new-user-bookings-winners-interview-3rd-place-sandro-vega-pons/] ) and [Kuroyanagi](http://blog.kaggle.com/2016/03/17/airbnb-new-user-bookings-winners-interview-2nd-place-keiichi-kuroyanagi-keiku/) ). 
+
+## Problem Statement
+The challenge then becomes: How can Airbnb predict the country in which a new user will make his or her first booking?
+
+In this project, we will predict a new user's first booking by deploying machine learning algorithms to analyze data about the user that will help predict this first booking. Airbnb has posted this very problem as a [Kaggle Recruitment Challenge](https://www.kaggle.com/c/airbnb-recruiting-new-user-bookings#description) and has provided New User Booking Data to help participants develop models to predict a new user's first booking. This data includes information about users demographics, web session records, and summary statistics. 
+
+Our goal is to analyze the data, build and train a model, and test this model to predict a new user's first booking.
+
+
+## Solution Statement
+
+We believe that features in training dataset can be leveraged to come up with a model that can accurately predict where a new user's first destination will be. We understand that information about past users, including their actions, characteristics, demographics, and personal information, can be used to develop a machine learning model to predict where a new user with similar traits would decide to travel. 
+
+We will begin with the 15 features included in the `training_set` as the inputs for the model, and the `country_destination` feature as the label. Along the way, we may find some features less useful than others, while some features combined may help simplify our model. These will be explored more as we test our model's capabilities and determine the pros and cons of using different models.We will be sure to test out a variety of supervised-learning models, including SVM, Decision Trees, and Random Forest. We will use ensemble learning techniques such as Gradient Tree Boosting and XGBoost as our final solution and will prove finalize how boosting will yield a better result than standard supervised learning algorithms. We will also do parameter tuning using Gridsearch.
+
 
 ## Data
 
@@ -64,13 +85,12 @@ The dataset provided by Airbnb includes 5 .csv files that describe a user, their
 ## Prerequisites
 
 You will need the following libraries to run this project: 
-  * numpy
-  * pandas
-  * matplotlib
-  * seaborn
-  * pickle
-  * datetime  
-  * sklearn
-  * IPython
-  * gc
+  * [numpy](http://www.numpy.org/)
+  * [pandas](https://pandas.pydata.org)
+  * [sklearn](http://scikit-learn.org/stable/)
+  * [matplotlib](https://matplotlib.org/)
+  * [seaborn](https://seaborn.pydata.org)
+  * [pickle](https://docs.python.org/2/library/pickle.html)
+  * [IPython](https://ipython.org/)
+  * XGBoost: Follow the instructions [here](http://xgboost.readthedocs.io/en/latest/build.html) to install XGBoost library
 
