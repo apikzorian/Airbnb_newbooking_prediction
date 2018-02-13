@@ -33,7 +33,7 @@ The dataset provided by Airbnb includes 5 .csv files that describe a user, their
 
 1 & 2) [train_users.csv](https://www.kaggle.com/c/airbnb-recruiting-new-user-bookings/download/train_users_2.csv.zip) & [test_users.csv](https://www.kaggle.com/c/airbnb-recruiting-new-user-bookings/download/test_users.csv.zip)
 
-    These datasets will be used to train and test our model, respectively. For each use in the dataset, we are provided the following features:
+   These datasets will be used to train and test our model, respectively. For each use in the dataset, we are provided the following features:
   
   * id: user id
   * date_account_created: the date of account creation
