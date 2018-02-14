@@ -11776,7 +11776,7 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Kaggle-Airbnb-New-User-Predictor">Kaggle Airbnb New User Predictor<a class="anchor-link" href="#Kaggle-Airbnb-New-User-Predictor">&#182;</a></h1><p>Apik Zorian</p>
-<p>January 25, 2018</p>
+<p>February 13, 2018</p>
 
 </div>
 </div>
@@ -11817,13 +11817,13 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Evaluation-Metrics">Evaluation Metrics<a class="anchor-link" href="#Evaluation-Metrics">&#182;</a></h2><p>Kaggle assesses submissions based on Normalized discounted cumulative gain (NDCG). NDCG is calculated as:</p>
+<h2 id="Evaluation-Metrics">Evaluation Metrics<a class="anchor-link" href="#Evaluation-Metrics">&#182;</a></h2><p>Kaggle assesses submissions based on Normalized discounted cumulative gain (nDCG). Discounted cumulative gain is used to measure ranking quality, usually for measuring the effectiveness of web search engine algorithms. The <em>gain</em> measured can be thought of as the usefulness of an element based on its position in the list of results, where results are a list of elements in graded relevance scale generated from search-engine. This gain is accumulated from the top of the list to the bottom, with the gain of each result discounted at lower ranks (ref <a href="https://en.wikipedia.org/wiki/Discounted_cumulative_gain#Normalized_DCG">Discounted cumulative gain</a>). Since the list of results can vary in length, the cumulative gain at each position should be <strong>normalized</strong> across queries to achieve consistencey. This can be calculated using the following equation:</p>
 <p><img src="https://image.ibb.co/bBNhYb/NDCG1.jpg" alt="alt text"></p>
 <p>where reli is the relevance of the result at position i. We will be making a maximum of 5 predictions per booking (k = 5).</p>
 <p>For each new user, we make a maximum of 5 predictions on the country of the first booking. The ground truth country is marked with relevance = 1, while the rest have relevance = 0.</p>
 <p>If, for example, the destination for a particular user is France (FR), then the predictions become:</p>
 <p><img src="https://image.ibb.co/dc1btb/Capture.jpg" alt="alt text"></p>
-<p>As NDCG is the <a href="https://www.kaggle.com/c/airbnb-recruiting-new-user-bookings#evaluation">evaluation metric that Kaggle uses</a>, to assess participants for their competition, this will be our metric as well.</p>
+<p>Kaggle uses nDCG as the <a href="https://www.kaggle.com/c/airbnb-recruiting-new-user-bookings#evaluation">evaluation metric</a> to assess participants for their competition, so this will be our metric as well. The reasoning behind this is that nDCG is designed for situations of graded notions of relevance, which is ideal for our project. Using <strong>precision</strong> or <strong>recall</strong> are generally good metrics to evaluate the level of relevance importance. However, neither of these meterics considers the <em>position</em> of an item in the retrieved result list. Rather than using a binary relevance function, we need to evaluate our list using a graded relevance function to measure the gain of an element based on its position in the result list. Since we will be evaluating our top 5 predictions per booking, we need to evaluate the <em>ranking quality</em> of our model, which the gain will help us measure.</p>
 
 </div>
 </div>
@@ -15065,6 +15065,52 @@ AAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Algorithms-and-Techniques">Algorithms and Techniques<a class="anchor-link" href="#Algorithms-and-Techniques">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Ensemble learning is a powerful way to improve Machine Learning models. It involves combining invidiual learners, which are considered "weak" learners, to create a "strong learner". The weak learners can be a number of machine learning models, such as SVMs or Naive Bayes Classifiers.</p>
+<p>In this project, we will use two ensemble learners that use Decision Trees as their "weak learners" and will use a Decision Tree as our benchmark model</p>
+<p>Below are the Ensemble Learners we will be building to make our predictions:</p>
+<h3 id="Ensemble-Learners">Ensemble Learners<a class="anchor-link" href="#Ensemble-Learners">&#182;</a></h3>
+<pre><code>1. Random Forest Classifier: In Random Forest models, a random percentage of the data is chosen T times, where T is the number of Decision Trees. After the data passes through the trees, the result is either averaged as a mean prediction (regression) or as a class (classification). The advantage of Random Forests is that they operate with the bias of a single decision tree but decrease the variance, so they make up for the overfitting you would get with a decision tree. 
+2. XGBoost: XGBoost is an ensemble learning method that utilizes gradient boosting with decision trees. Boosting is an ensemble technique where new models are added to correct errors made by existing models. In this case, the models are decision trees. Trees are added sequentiall until no further imrpovements can be made. XGBoost has high execution speed, strong model performance, and is the go-to algorithm for winners of Kaggle competitions
+
+</code></pre>
+<h3 id="Additional-Supervised-Learners">Additional Supervised Learners<a class="anchor-link" href="#Additional-Supervised-Learners">&#182;</a></h3><p>Although we will be using Decision Trees as our benchmark, we will also try to make predictions using a couple of other Machine Learning Algorithms to give us perspective. Here are a couple of basic supervised learners we will also be training:</p>
+
+<pre><code>1. Logistic Regression: Logistic Regression can be used to fit complex, non-linear datasets. It uses gradient descent to find the coeficients of the polynomial to best split the data.
+
+2. Support Vector Machine: SVM can be considered as one of the basic Machine Learning algorithms for supervised learning and is good to use when there is a clear margin of separation for the data. However, it is not recommended when dealing with a large data set because training time takes a while (training time is cubic in the size of the data set).</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Benchmark">Benchmark<a class="anchor-link" href="#Benchmark">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Decision-Tree-Classifier">Decision Tree Classifier<a class="anchor-link" href="#Decision-Tree-Classifier">&#182;</a></h3><p>Decision Trees are powerful Machine Learning tools for multiclass classification problems, including the one we are working on. They are able to learn simple decision rules when being trained on training data. They are, however, prone to overfitting when dealing with data that has lots of features. They are better suited as building blocks for ensemble methods, which we will see later. Since our goal is to build ensemble learner classifiers that are built using decision trees, it is only right that we use a decision tree as our baseline score.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Methodology">Methodology<a class="anchor-link" href="#Methodology">&#182;</a></h1><h2 id="Preprocessing">Preprocessing<a class="anchor-link" href="#Preprocessing">&#182;</a></h2><h3 id="Age">Age<a class="anchor-link" href="#Age">&#182;</a></h3><p>We start by setting the values for the users' ages that are either greater than 100 or less than 15 to <code>NAN</code></p>
 
 </div>
@@ -17647,7 +17693,7 @@ action_detail
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
@@ -17671,7 +17717,7 @@ action_detail
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">users</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;checkpoint_39&#39;</span><span class="p">)</span>
@@ -18004,8 +18050,7 @@ action_detail
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Implementation---Support-Vector-Machine">Implementation - Support Vector Machine<a class="anchor-link" href="#Implementation---Support-Vector-Machine">&#182;</a></h3><p>We first built a Linear SVM Classifier model. SVM can be considered as one of the basic Machine Learning algorithms for supervised learning and is good to use when there is a clear margin of separation for the data. However, it is not recommended when we are dealing with a large data set because training time takes a while (training time is cubic in the size of the data set).</p>
-
+<h3 id="Implementation---Support-Vector-Machine">Implementation - Support Vector Machine<a class="anchor-link" href="#Implementation---Support-Vector-Machine">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -18331,15 +18376,6 @@ action_detail
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Logistic Regression can be used to fit complex, non-linear datasets. It uses gradient descent to find the coeficients of the polynomial to best split the data.</p>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
@@ -18539,8 +18575,7 @@ nDCG:0.803479707023
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Implementation---Decision-Tree">Implementation - Decision Tree<a class="anchor-link" href="#Implementation---Decision-Tree">&#182;</a></h3><p>Next, we built a decision tree classifier. Decision Trees are powerful Machine Learning tools for multiclass classification problems, including the one we are working on. They are able to learn simple decision rules when being trained on training data. They are, however, prone to overfitting when dealing with data that has lots of features. They are better suited as building blocks for ensemble methods, which we will see later.</p>
-
+<h3 id="Implementation---Decision-Tree">Implementation - Decision Tree<a class="anchor-link" href="#Implementation---Decision-Tree">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -18880,8 +18915,7 @@ nDCG:0.679645907593
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Implementation---Random-Forest">Implementation - Random Forest<a class="anchor-link" href="#Implementation---Random-Forest">&#182;</a></h3><p>Ensemble learning is a powerful way to improve models. It involves combining invidiual learners, which are considered "weak" learners, to create a "strong learner". The weak learners can be a number of machine learning models, such as SVMs or Naive Bayes Classifiers. For Random Forests, these weak learners are Decision Trees. In Random Forest models, a random percentage of the data is chosen T times, where T is the number of Decision Trees. After the data passes through the trees, the result is either averaged as a mean prediction (regression) or as a class (classification). The advantage of Random Forests is that they operate with the bias of a single decision tree but decrease the variance, so they make up for the overfitting you would get with a decision tree.</p>
-
+<h3 id="Implementation---Random-Forest">Implementation - Random Forest<a class="anchor-link" href="#Implementation---Random-Forest">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -19221,9 +19255,7 @@ nDCG:0.800963647489
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Implementation---XGBoost">Implementation - XGBoost<a class="anchor-link" href="#Implementation---XGBoost">&#182;</a></h3><p>XGBoost is an ensemble learning method that utilizes gradient boosting with decision trees. Boosting is an ensemble technique where new models are added to correct errors made by existing models.</p>
-<p>In this case, the models are decision trees. Trees are added sequentiall until no further imrpovements can be made. XGBoost has high execution speed, strong model performance, and is the go-to algorithm for winners of Kaggle competitions</p>
-
+<h3 id="Implementation---XGBoost">Implementation - XGBoost<a class="anchor-link" href="#Implementation---XGBoost">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -19431,6 +19463,17 @@ nDCG:0.822182174049
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that XGBoost does an excellent job of predicting NDF and U.S. It has an accuracy of <strong>0.63</strong> and a nDCG score of <strong>0.822</strong>, the highest we have seen for any of our models</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Implementation-Complications">Implementation Complications<a class="anchor-link" href="#Implementation-Complications">&#182;</a></h4><p>Since XGBoost is not from the sklearn library, it had to be built from a third party git repository (instructions can be found <a href="http://xgboost.readthedocs.io/en/latest/build.html">here</a>). We ran into trouble while trying to build and import the XGBoost library on our Windows machine and were unable to take advantage of our i7 processor. Installing and building this library was much easier on a Linux computer, so we instead ran our implementation on a machine with less computing power, which ended up taking longer.</p>
+<p>We expected better results for the SVC and were dissapointed with its inability to make good predictions on our data, getting &lt; 50% accuracy. We did know that SVC's drawback is that it does not work well with large amounts of data and large amounts of feature, but we assumed that by reducing the features we'd expect decent results. Luckily we also trained a Logistic Regression Classifier, which was able to provide us with some perspective to compare results with our benchmark Decision Tree and our Ensemble Learners. Linear SVMs and logistic regression generally perform similarly in practice. The poor performance of our Linear SVM may also have been because the data is not linearly separable. However, we did get good results from our Logistic Regression Classifier, so we did not revisit the SVC.</p>
+<p>The training time for SVC (~ 10 minutes) and XGBoost (~ 36 minutes) were much longer than the other models. We will compare the exact runtimes later in the <strong>Results</strong> section, but it was inconvenient to wait so long for results, especially in the case of XGBoost, which had parameters we were tuning. We ran multiple training rounds with XGBoost with different values for the max_depth and learning_rate, each time tweaking one or the other and seeing the different results. We noticed that more max_depth resulted in better accuracies each time. Rather than continuing with this trial and error process, we instead decided to use <code>GridSearchCV</code> to help us optimize through a selection of parameters. This process is described in the <strong>Refinement</strong>.</p>
 
 </div>
 </div>
@@ -19769,7 +19812,7 @@ nDCG:0.819157192355
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="GridSearch---XGBoost">GridSearch - XGBoost<a class="anchor-link" href="#GridSearch---XGBoost">&#182;</a></h1><p>For our XGBoost classifier, we also try to optimize a couple of our parameters:</p>
+<h3 id="GridSearch---XGBoost">GridSearch - XGBoost<a class="anchor-link" href="#GridSearch---XGBoost">&#182;</a></h3><p>For our XGBoost classifier, we also try to optimize a couple of our parameters:</p>
 <ol>
 <li><code>learning_rate</code>: 
  step size shrinkage used in update to prevents overfitting. After each boosting step, we can directly get the weights of new features. and eta actually shrinks the feature weights to make the boosting process more conservative (default = 0.3)</li>
@@ -20104,7 +20147,7 @@ nDCG:0.82236365083
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
@@ -20117,6 +20160,140 @@ nDCG:0.82236365083
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Check-Robustness---KFolds">Check Robustness - KFolds<a class="anchor-link" href="#Check-Robustness---KFolds">&#182;</a></h3><p>To check our models' robustness, we can run K-Folds Cross Validation on the models to see how they perform. k-fold Cross-Validation is a Machine Learning technique to achieve the bias-variance tradeoff in the testing process and ensure that the model has low bias and low variance. It first divides the dataset randomly into k different batches. Then, it chooses one of these batches as the validation batch and the others to train the model. It then uses the batch that was held out for testing, which gives us one estimate of the models' error. This process is repeated k times, where each time a different batch is held out as the testing batch.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="n">rf_best</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;rf_best_model.sav&#39;</span><span class="p">)</span>
+<span class="n">xgb_best</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;xgb_best.sav&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">KFold</span>
+
+<span class="k">def</span> <span class="nf">get_kfolds</span><span class="p">(</span><span class="n">clf</span><span class="p">):</span>
+    <span class="n">kf</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+    <span class="n">X_cv</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_test</span><span class="p">)</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span>
+    <span class="n">y_cv</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_test</span><span class="p">)</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">train_fold</span><span class="p">,</span> <span class="n">valid_fold</span> <span class="ow">in</span> <span class="n">kf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_cv</span><span class="p">):</span>
+        <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_cv</span><span class="p">[</span><span class="n">train_fold</span><span class="p">],</span> <span class="n">y_cv</span><span class="p">[</span><span class="n">train_fold</span><span class="p">])</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_cv</span><span class="p">[</span><span class="n">valid_fold</span><span class="p">],</span> <span class="n">y_cv</span><span class="p">[</span><span class="n">valid_fold</span><span class="p">])</span>    
+        <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Variance in scores = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">scores</span><span class="p">)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Mean of scores = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">## k-folds for Random Forest</span>
+<span class="n">get_kfolds</span><span class="p">(</span><span class="n">rf_best</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Variance in scores = 5.55945716023e-05
+Mean of scores = 0.61710898186
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">## k-folds for XGBoost</span>
+<span class="n">get_kfolds</span><span class="p">(</span><span class="n">xgb_best</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Variance in scores = 5.35745276423e-05
+Mean of scores = 0.623292979231
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We see that when we run kfolds cross-validation on both the Random Forest and XGBoost classifiers, the mean scores are &gt; 60% and we see very low variance. This confirms the robustness of both of our models, as we can see postivie and consistent results through cross-validation.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Submissions">Submissions<a class="anchor-link" href="#Submissions">&#182;</a></h3>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -20163,14 +20340,6 @@ nDCG:0.82236365083
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Submissions">Submissions<a class="anchor-link" href="#Submissions">&#182;</a></h3>
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
